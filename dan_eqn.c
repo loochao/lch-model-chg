@@ -4,6 +4,13 @@
 
 #define PI 3.14159265359
 
+double p1_sigma = 0.0088 * 2;
+double p2 = 57.0;
+double p3 = 1.0;
+double p4 = 2.0 * PI / 13.0;
+double p5 = PI / 2.0;
+double sigma_eta = 0.0019;
+
 void init(double *data, int n)
 {
     int i;
@@ -24,6 +31,27 @@ void write(char *fn, char *mode, double *data, int n, double dx, double time)
     fclose(fp);
 }
 
+void write_maxh_init(char *fn, char *mode, double *data, int n, double dx, double time)
+{
+        int i = n/2;
+        FILE * fp = fopen(fn, mode);
+        fprintf(fp, "OUTPUT SURFACE HEIGHT OF POSITION %lf\n", (float)i*dx);
+        fprintf(fp, "PARAMETERS: p1/sigma = %lf; sigma/eta = %lf\n", p1_sigma/2, sigma_eta);
+        fclose(fp);
+}
+
+void write_maxh(char *fn, char *mode, double *data, int n, double dx, double time)
+{
+        int i;
+        FILE * fp = fopen(fn, mode);
+
+        // Gaussian centered at dx*n/2, which is the max height.
+        i = n/2;
+        fprintf(fp, "%lf %lf\n", time, data[i]);
+
+        fclose(fp);
+}
+
 void apply_no_flux(double *h, int n)
 {
     h[2] = h[3];
@@ -35,14 +63,9 @@ void apply_no_flux(double *h, int n)
     h[n-1] = h[n-6];
 }
 
-#include "parameters/para_pp.h"
-
 void integrate_time_step(double *h, int n, double dx, double dt)
 {
     int i;
-    double p2 = 57.0;
-    double p4 = 2.0 * PI / 13.0;
-    double sigma_eta = 0.0019;
 
     double P[n];
     double Px[n];
@@ -95,28 +118,17 @@ int main()
 
     init(h, n);
 
-    write("output.dat", "w", h, n, dx, 0);
+    char basename[100] = ".dat", filename[100];
+    sprintf(filename, "h_evolve_%f_%f%s", p1_sigma/2, sigma_eta, basename);
 
-    char basename[80] = "dat", filename[100];
-    FILE *snapshot;
-    int frame = 0, mm = 0;
+    write_maxh_init(filename, "w", h, n, dx, 0);
 
     for (istep=0; istep<nsteps; istep++)
     {
         if (istep % 10000 == 0) printf("%f\n", istep/((float)nsteps));
         if ((istep+1) % 10000 == 0)
             {
-                /* write("output.dat", "a", h, n, dx, (istep+1)*dt); */
-                if (frame < 10)
-                    sprintf(filename, "snapshot_%d%d.%s", 0, frame++, basename);
-                else
-                    sprintf(filename, "snapshot_%d.%s", frame++, basename);
-
-                snapshot = fopen(filename, "w");
-
-                for(mm = 0; mm < n; mm++)
-                    fprintf(snapshot, "%f\n", h[mm]);
-                fclose(snapshot);
+                    write_maxh(filename, "a", h, n, dx, (istep+1)*dt);
             }
 
         integrate_time_step(h, n, dx, dt);
