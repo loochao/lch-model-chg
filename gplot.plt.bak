@@ -1,7 +1,0 @@
-set terminal png
-set output "snapshot_00.png"
-set xlabel "x (micron)"
-set ylabel "height (micron)"
-set yrange [0:5]
-set title "snapshot_00"
-plot "snapshot_00.dat" using 1 with lines
