@@ -4,12 +4,18 @@
 
 #define PI 3.14159265359
 
-double p1_sigma = 0.0088 * 2;
+#include "p1_sigma.h"
+/* which contains: */
+/* double p1_sigma = 0.0088 * 2; */
+
+#include "sigma_eta.h"
+/* which contains: */
+/* double sigma_eta = 0.0019; */
+
 double p2 = 57.0;
 double p3 = 1.0;
 double p4 = 2.0 * PI / 13.0;
 double p5 = PI / 2.0;
-double sigma_eta = 0.0019;
 
 void init(double *data, int n)
 {
@@ -125,16 +131,24 @@ int main()
 
     for (istep=0; istep<nsteps; istep++)
     {
+        if (istep < 10000)
+        {
+            if (istep % 1000 == 0) printf("%f\n", istep/((float)nsteps));
+            if ((istep+1) % 1000 == 0)
+            {
+                write_maxh(filename, "a", h, n, dx, (istep+1)*dt);
+            }
+        }
+        
         if (istep % 10000 == 0) printf("%f\n", istep/((float)nsteps));
         if ((istep+1) % 10000 == 0)
-            {
-                    write_maxh(filename, "a", h, n, dx, (istep+1)*dt);
-            }
+        {
+            write_maxh(filename, "a", h, n, dx, (istep+1)*dt);
+        }
 
         integrate_time_step(h, n, dx, dt);
         apply_no_flux(h, n);
     }
-
 
     free(h);
 
