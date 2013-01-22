@@ -36,13 +36,13 @@ h21 = h_evolve_0_008800_0_019000(:,2);
 hold on;
 grid on;
 plot(f, abs(h03 - 2)/2, 'k--', 'linewidth', 2);
-text(100, 0.14, 'p1/\sigma = 0.88, \sigma/\eta = 0.00019','fontsize', 16);
+text(100, 0.14, 'p1/\sigma = 0.88, \sigma/\eta = 0.00019','fontsize', 16, 'fontname', 'Tahoma');
 % plot(f, abs(h13 - 2)/2, 'k--', 'linewidth', 1.5);
 
 plot(f, abs(h02 - 2)/2, 'r', 'linewidth', 2);
-text(200, 0.32, 'p1/\sigma = 0.88, \sigma/\eta = 0.0019','fontsize', 16);
-plot(f, abs(h12 - 2)/2, 'r:', 'linewidth', 1.5);
-text(180, 0.024, 'p1/\sigma = 0.088, \sigma/\eta = 0.0019','fontsize', 16);
+text(200, 0.32, 'p1/\sigma = 0.88, \sigma/\eta = 0.0019','fontsize', 16, 'fontname', 'Tahoma');
+plot(f, abs(h12 - 2)/2, 'r', 'linewidth', 1.5);
+text(180, 0.024, 'p1/\sigma = 0.088, \sigma/\eta = 0.0019','fontsize', 16, 'fontname', 'Tahoma');
 % plot(f, abs(h22 - 2)/2, 'r', 'linewidth', 1);
 
 % plot(f, abs(h01 - 2)/2, 'g:', 'linewidth', 2);
@@ -50,7 +50,7 @@ text(180, 0.024, 'p1/\sigma = 0.088, \sigma/\eta = 0.0019','fontsize', 16);
 % plot(f, abs(h21 - 2)/2, 'g--', 'linewidth', 1);
 hold off;
 xlabel('Fluence (kJ/cm^2)', 'fontSize', 14, 'fontWeight', 'bold');
-ylabel('Maximum Grating Amplitude (over init height)', 'fontSize', 14, 'fontWeight', 'bold');
+ylabel('Max. Grating Amplitude (relative to init height)', 'fontSize', 14, 'fontWeight', 'bold');
 
 set(gca, 'FontSize', 14);
 h = gca;
