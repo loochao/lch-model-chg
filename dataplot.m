@@ -50,7 +50,7 @@ text(180, 0.024, 'p1/\sigma = 0.088, \sigma/\eta = 0.0019','fontsize', 16, 'font
 % plot(f, abs(h21 - 2)/2, 'g--', 'linewidth', 1);
 hold off;
 xlabel('Fluence (kJ/cm^2)', 'fontSize', 14, 'fontWeight', 'bold');
-ylabel('Max. Grating Amplitude (relative to init height)', 'fontSize', 14, 'fontWeight', 'bold');
+ylabel('Max. Grating Amplitude (relative to inital height)', 'fontSize', 14, 'fontWeight', 'bold');
 
 set(gca, 'FontSize', 14);
 h = gca;

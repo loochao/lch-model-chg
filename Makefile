@@ -14,7 +14,7 @@ store:
 	mv *.dat *.info output/
 	mv *.png output/
 
-recover:
+restore:
 	mv output/* .
 
 plot:
